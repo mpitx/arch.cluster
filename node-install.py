@@ -69,3 +69,14 @@ def mount_partitions():
         #call(mkdir_cmd)
         logger.debug(mount_cmd)
         #call(mount_cmd)
+
+def umount_partitions():
+    mounts = getKeys("FSTAB")
+    mounts.reverse()
+    rel_root = "/mnt"
+    for mount in mounts:
+        logger.debug("Unmount %s" % mount)
+        m = getConfig("FSTAB", mount)
+        umount_cmd = ["umount", m]
+        logger.debug(umount_cmd)
+        #call(umount_cmd)
