@@ -30,24 +30,31 @@ def partitionDisk(device):
     partitionTable = getConfig("PARTITION_TABLE", device)
     partitions = partitionTable.split('|')
     logger.debug("Erasing current partition table")
-    #call(["dd", "if=/dev/zero", "of=%s" % device, "bs=512", "count=1"])
+    dd_cmd = ["dd", "if=/dev/zero", "of=%s" %device, "bs=512", "cound=1"]
+    logger.debud(dd_cmd)
+    #call(dd_cmd)
     logger.debug("Initializing new disk label")
-    #call(["parted", device, "mklabel", "gpt"])
+    mklabel_cmd = ["parted", device, "mklabel", "gpt"]
+    logger.debug(parted_cmd)
+    #call(mklabel_cmd)
     for i,part in enumerate(partitions):
         logger.debug("Creating %d partition" % i)
         options = part.split(";")
         assert 3 <= len(options) <= 3 ##this may later grow
-        #call(["parted",
-        #     device,
-        #     "mkpart",
-        #     "P1",
-        #     options[2],
-        #     options[1],
-        #     options[2]])
+        parted_cmd = ["parted",
+                      device,
+                      "mkpart",
+                      "P1",
+                      options[2],
+                      options[1],
+                      options[2]]
+        logger.debug(parted_cmd)
+        #call(parted_cmd)
         if option[2] not in ["ext2","ext3","ext4"]:
             continue
         logger.debug("Making FileSystem")
-        #call(["mkfs.%s" % option[2], device])
+        mkfs_cmd = ["mkfs.%s" % option[2], device]
+        #call(mkfs_cmd)
 
 def mount_partitions():
     mounts = getKeys("FSTAB")
@@ -56,5 +63,9 @@ def mount_partitions():
         logger.debug("(Creating and) mounting %s" % mount)
         dev = getConfig("PARTITION_TABLE", mount)
         m = getConfig("FSTAB", mount)
-        #call(["mkdir", "-p", rel_root + m])
-        #call(["mount", dev, rel_root + m])
+        mkdir_cmd = ["mkdir", "-p", rel_root + m]
+        mount_cmd = ["mount", dev, rel_root + m]
+        logger.debug(mkdir_cmd)
+        #call(mkdir_cmd)
+        logger.debug(mount_cmd)
+        #call(mount_cmd)
