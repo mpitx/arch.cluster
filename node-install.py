@@ -6,8 +6,9 @@ import subprocess
 import sys
 import logging
 
-logger = logging.GetLogger("install")
+logger = logging.getLogger("install")
 logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 def getConfig(section, key):
     config = configpaser.ConfigParser()
