@@ -11,7 +11,7 @@ logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
 def getConfig(section, key):
-    config = configpaser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read("install.config")
     return config[section][key]
 
@@ -37,7 +37,7 @@ def prepare_disks():
         partitionDisk(device)
 
 def partitionDisk(device):
-    logger.INFO("Partitioning %s" % device)
+    logger.debug("Partitioning %s" % device)
     partitionTable = getConfig("PARTITION_TABLE", device)
     partitions = partitionTable.split('|')
     logger.debug("Erasing current partition table")
@@ -58,10 +58,10 @@ def partitionDisk(device):
                       options[1],
                       options[2]]
         call(parted_cmd)
-        if option[2] not in ["ext2","ext3","ext4"]:
+        if options[2] not in ["ext2","ext3","ext4"]:
             continue
         logger.debug("Making FileSystem")
-        mkfs_cmd = ["mkfs.%s" % option[2], device]
+        mkfs_cmd = ["mkfs.%s" % options[2], device]
         call(mkfs_cmd)
 
 def mount_partitions():
@@ -197,7 +197,7 @@ def chroot_stage_main():
 def full_install():
     prepare_disks()
     mount_partitions()
-    boostrap_system()
+    bootstrap_system()
     live_install_main()
     umount_partitions()
 
