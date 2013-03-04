@@ -193,3 +193,19 @@ def chroot_stage_main():
     systemctlEnable("nfsd.service")
     systemctlEnable("rpc-idmapd.service")
     systemctlEnable("ntpd.service")
+
+def full_install():
+    prepare_disks()
+    mount_partitions()
+    boostrap_system()
+    live_install_main()
+    umount_partitions()
+
+if __name__ == '__main__':
+    assert len(sys.argv) == 2
+    if sys.argv[1] == "full-install":
+        full_install()
+    elif sys.argv[1] == "in-chroot":
+        chroot_stage_main()
+    else:
+        sys.exit(1)
