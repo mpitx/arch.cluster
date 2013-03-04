@@ -179,6 +179,21 @@ def chroot_stage_main():
 
 
     ## setup NFS Home...
+    export = getConfig("NFS_SHARE", "SERVER_EXPORT")
+    mount_point = getConfig("NFS_SHARE", "MOUNT_POINT")
+    mount_options = getConfig("NFS_SHARE", "OPTIONS")
+    mount_dump = getConfig("NFS_SHARE", "DUMP")
+    mount_fsckorder = getConfig("NFS_SHARE", "FSCKORDER")
+    call(["mv", "/etc/idmapd.conf.REPLACE", "/etc/idmapd.conf"])
+    with open("/etc/fstab", "a") as fstab:
+        fstab.write("""
+            #NFSv4 home mount
+            %s %s nfs4 %s %s %s"""
+            % (export,
+               mount_point,
+               mount_options,
+               mount_dump,
+               mount_fsckorder))
 
     chown_cmd = ["chown", "root:root", "/etc/sudoers.REPLACE"]
     call(chown_cmd)
