@@ -19,12 +19,15 @@ def getKeys(section):
     config.read("install.config")
     return config[section]
 
-def call(cmd, stdout=None, stderr=None, noop=True, verbose=False):
+def call(cmd, input=None, stdout=None, stderr=None, noop=True, verbose=False):
     if noop or verbose:
         logger.debug(cmd)
+        if input:
+            logger.debug(input)
     if not noop:
-        return subprocess.call(cmd, stdout=stdout, stderr=stderr)
-    return 0
+        p = subproccess.Popen(cmd, stdout=stdout, stderr=stderr,
+                              stdin=subprocess.PIPE if input else None)
+        p.communicat(input=input)
 
 def prepare_disks():
     ROOT = getConfig("DISK_INFO", "ROOT")
@@ -152,7 +155,7 @@ def chroot_stage_main():
     mkinitcpio_cmd = ["mkinitcpio", "-p", "linux"]
     call(mkinitcpio_cmd)
 
-    ## init root passwd?
+    call(["chpasswd"], input="root:toor")
 
     call(["mv", "/boot/syslinux/syslinux.cfg.REPLACE",
           "/boot/syslinux/syslinux.cfg"])
