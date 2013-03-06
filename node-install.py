@@ -26,9 +26,9 @@ def call(cmd, input=None, stdout=None, stderr=None, noop=True, verbose=False):
         if input:
             logger.debug(input)
     if not noop:
-        p = subproccess.Popen(cmd, stdout=stdout, stderr=stderr,
-                              stdin=subprocess.PIPE if input else None)
-        p.communicat(input=input)
+        sub = subprocess.Popen(cmd, stdout=stdout, stderr=stderr,
+                               stdin=subprocess.PIPE if input else None)
+        sub.communicate(input=input)
 
 def prepare_disks():
     ROOT = getConfig("DISK_INFO", "ROOT")
@@ -55,7 +55,7 @@ def partitionDisk(device):
                       options[2],
                       options[1],
                       options[2]])
-        if options[2] not in ["ext2","ext3","ext4"]:
+        if options[2] not in ["ext2", "ext3", "ext4"]:
             continue
         logger.debug("Making FileSystem")
         call(["mkfs.%s" % options[2], device])
@@ -84,7 +84,7 @@ def bootstrap_system():
     call(["rsync", "-avz", "mntfiles", "/mnt/"])
     genfstab_cmd = ["genfstab", "-U", "-p", "/mnt"]
     with open("/mnt/etc/fstab", "a") as fstab:
-        call(genfstab, stdout=fstab)
+        call(genfstab_cmd, stdout=fstab)
 
 def live_install_main():
     prepare_disks()
