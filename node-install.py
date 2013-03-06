@@ -41,28 +41,24 @@ def partitionDisk(device):
     partitionTable = getConfig("PARTITION_TABLE", device)
     partitions = partitionTable.split('|')
     logger.debug("Erasing current partition table")
-    dd_cmd = ["dd", "if=/dev/zero", "of=%s" %device, "bs=512", "cound=1"]
-    call(dd_cmd)
+    call(["dd", "if=/dev/zero", "of=%s" %device, "bs=512", "cound=1"])
     logger.debug("Initializing new disk label")
-    mklabel_cmd = ["parted", device, "mklabel", "gpt"]
-    call(mklabel_cmd)
+    call(["parted", device, "mklabel", "gpt"])
     for i, part in enumerate(partitions):
         logger.debug("Creating %d partition" % i)
         options = part.split(";")
         assert 3 <= len(options) <= 3 ##this may later grow
-        parted_cmd = ["parted",
+        call(["parted",
                       device,
                       "mkpart",
                       "P1",
                       options[2],
                       options[1],
-                      options[2]]
-        call(parted_cmd)
+                      options[2]])
         if options[2] not in ["ext2","ext3","ext4"]:
             continue
         logger.debug("Making FileSystem")
-        mkfs_cmd = ["mkfs.%s" % options[2], device]
-        call(mkfs_cmd)
+        call(["mkfs.%s" % options[2], device])
 
 def mount_partitions():
     mounts = getKeys("FSTAB")
@@ -71,10 +67,8 @@ def mount_partitions():
         logger.debug("(Creating and) mounting %s" % mount)
         dev = getConfig("PARTITION_TABLE", mount)
         m = getConfig("FSTAB", mount)
-        mkdir_cmd = ["mkdir", "-p", rel_root + m]
-        mount_cmd = ["mount", dev, rel_root + m]
-        call(mkdir_cmd)
-        call(mount_cmd)
+        call(["mkdir", "-p", rel_root + m])
+        call(["mount", dev, rel_root + m])
 
 def umount_partitions():
     mounts = getKeys("FSTAB")
@@ -83,14 +77,11 @@ def umount_partitions():
     for mount in mounts:
         logger.debug("Unmount %s" % mount)
         m = getConfig("FSTAB", mount)
-        umount_cmd = ["umount", m]
-        call(umount_cmd)
+        call(["umount", m])
 
 def bootstrap_system():
-    pacstrap_cmd = ["pacstrap", "/mnt", "base", "base-devel"]
-    call(pacstrap_cmd)
-    rsync_cmd = ["rsync", "-avz", "mntfiles", "/mnt/"]
-    call(rsync_cmd)
+    call(["pacstrap", "/mnt", "base", "base-devel"])
+    call(["rsync", "-avz", "mntfiles", "/mnt/"])
     genfstab_cmd = ["genfstab", "-U", "-p", "/mnt"]
     with open("/mnt/etc/fstab", "a") as fstab:
         call(genfstab, stdout=fstab)
@@ -100,18 +91,15 @@ def live_install_main():
     mount_partitions()
     bootstrap_system()
     logger.debug("Copy and call self from chroot")
-    copy_self_cmd = ["cp", os.path.join(os.getcwd(), "node-install.py"),
-                     "/mnt/root/node-enstall.py"]
-    call(copy_self_cmd)
-    chroot_cmd = ["arch-chroot",
+    call(["cp", os.path.join(os.getcwd(), "node-install.py"),
+                     "/mnt/root/node-enstall.py"])
+    call(["arch-chroot",
                   "/mnt",
                   "python",
                   "node-install.py",
                   "node-number",
-                  "in-chroot"]
-    call(chroot_cmd)
+                  "in-chroot"])
     call(["rm", "/mnt/root/node-install.py"])
-
     umount_partitions()
 
 def chroot_stage_main():
@@ -124,47 +112,41 @@ def chroot_stage_main():
     broadcast = getConfig("NETWORK", "BROADCAST")
     ip = getConfig("NETWORK", "IP")
 
-    extra_install_cmd = ["pacman",
-                         "--noconfirm",
-                         "-S",
-                         "syslinux",
-                         "iproute2",
-                         "openssh",
-                         "nfs-utils",
-                         "nfsidmap",
-                         "ntp",
-                         "sudo",
-                         "zsh",
-                         "rsync"]
-    call(extra_install_cmd)
-    localegen_cmd = ["locale-gen"]
-    call(localegen_cmd)
+    call(["pacman",
+          "--noconfirm",
+          "-S",
+          "syslinux",
+          "iproute2",
+          "openssh",
+          "nfs-utils",
+          "nfsidmap",
+          "ntp",
+          "sudo",
+          "zsh",
+          "rsync"])
+    call(["locale-gen"])
 
-    localtime_cmd = ["ln", "-s",
-                     "/usr/share/zoneinfo/%s" % zoneInfo,
-                     "/etc/localtime"]
-    call(localtime_cmd)
+    call(["ln", "-s",
+          "/usr/share/zoneinfo/%s" % zoneInfo,
+          "/etc/localtime"])
 
-    hwclock_cmd = ["hwclock", "--systohc", "--utc"]
-    call(hwclock_cmd)
+    call(["hwclock", "--systohc", "--utc"])
 
     hostname_cmd = ["echo", hostname]
     logger.debug("%s piped to /etc/hostname" % hostname_cmd)
     with open("/etc/hostname", "w") as f:
         call(hostname_cmd, stdout=f)
 
-    mkinitcpio_cmd = ["mkinitcpio", "-p", "linux"]
-    call(mkinitcpio_cmd)
+    call(["mkinitcpio", "-p", "linux"])
 
     call(["chpasswd"], input="root:toor")
 
     call(["mv", "/boot/syslinux/syslinux.cfg.REPLACE",
           "/boot/syslinux/syslinux.cfg"])
 
-    syslinux_conf_cmd = ["syslinux-install_update", "-iam"]
-    call(syslinux_conf_cmd)
+    call(["syslinux-install_update", "-iam"])
 
-    os.path.mkdir("/etc/conf.d")
+    os.mkdir("/etc/conf.d")
     with open("/etc/conf.d/network", "w") as f:
         f.write("""
         interface=eth0
@@ -195,8 +177,7 @@ def chroot_stage_main():
                mount_dump,
                mount_fsckorder))
 
-    chown_cmd = ["chown", "root:root", "/etc/sudoers.REPLACE"]
-    call(chown_cmd)
+    call(["chown", "root:root", "/etc/sudoers.REPLACE"])
     call(["mv", "/etc/sudoers.REPLACE", "/etc/sudoers.REPLACE"])
 
     def systemctlEnable(target):
