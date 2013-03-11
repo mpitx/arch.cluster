@@ -11,16 +11,16 @@ out.
 
 1.  Boot Latest Arch Media
 
-2.  Setup Network Connections
+2.  Setup Network Connections:
 
-    *   This is done for you
+    This is (/ should be) done for you
 
-    *   However, if you require static IP see
-        [configuring network][archConfigNetwork]
+    However, if you require static IP see
+    [configuring network][archConfigNetwork]
 
-3.  Install Git
+3.  Install Git:
 
-    *   `pacman -S git`
+    `pacman -S git`
 
 4.  Clone [this] repository
 
@@ -32,13 +32,13 @@ out.
 
 8.  Reboot into new system
 
-9.  Ensure `salt` is setup correctly
+9.  Ensure `salt` is setup correctly:
 
-    *   Add the new node's key on the master node
+    Add the new node's key on the master node
 
-    *   Allow salt to configure the box
+    Allow salt to configure the box
 
-    *   Reboot
+    Reboot
 
 [archConfigNetwork]:[https://wiki.archlinux.org/index.php/Configuring_network]
 [this]:[https://github.com/mpitx/arch.cluster.git]
