@@ -1,0 +1,204 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+SCRIPT_NAME=`basename $0`
+pushd `dirname $0` > /dev/null
+SCRIPT_PATH=`pwd`
+popd > /dev/null
+
+
+NODE_NUMBER=0
+MIN_NODE=1
+MAX_NODE=199
+
+. ${SCRIPT_PATH}/install.config
+
+prepare_hdd() {
+    # check ${INSTALL_HDD} is not Live media (or already mounted)
+    if mount | grep ${INSTALL_HDD}; then
+        echo "${INSTALL_HDD} appears to already be mounted - bailing"
+        exit 1
+    fi
+
+    modprobe dm-mod     # probably already loaded, but doesn't hurt
+
+    # erase current partition table
+    dd if=/dev/zero of=${INSTALL_HDD} bs=512 count=1
+    # initialize new disk label
+    parted ${INSTALL_HDD} mklabel gpt
+
+    # create boot partition (512MB)
+    parted ${INSTALL_HDD} -- mkpart primary 'boot' 1 512
+    parted ${INSTALL_HDD} set 1 boot on
+    mkfs.ext4 -L boot ${BOOT_PART}
+
+    # create root partition (rest)
+    parted ${INSTALL_HDD} -- mkpart primary 'root' 512 -0
+    mkfs.ext4 -L root ${ROOT_PART}
+}
+
+
+mount_partitions() {
+    mount ${ROOT_PART} /mnt
+    mkdir -p /mnt/boot
+    mount ${BOOT_PART} /mnt/boot
+    fallocate -l ${SWAP_SIZE} /mnt${SWAP_FILE}
+    chmod 600 /mnt${SWAP_FILE}
+    mkswap /mnt${SWAP_FILE}
+    swapon /mnt${SWAP_FILE}
+}
+
+unmount_partitions() {
+    umount /mnt/boot
+    swapoff /mnt${SWAP_FILE}
+    umount /mnt
+}
+
+
+bootstrap_system() {
+    # copy premade config files to /mnt
+    cp pacman.conf /etc/pacman.conf
+    pacstrap /mnt base base-devel
+    rsync -avz mntfiles/ /mnt/
+
+    # generate fstab
+    genfstab -U -p /mnt >> /mnt/etc/fstab
+}
+
+
+
+live_install_main() {
+    prepare_hdd
+    mount_partitions
+    bootstrap_system
+
+    cp ${SCRIPT_PATH}/${SCRIPT_NAME} /mnt/root/${SCRIPT_NAME}
+    cp ${SCRIPT_PATH}/install.config /mnt/root/install.config
+
+    # call this same script except now use 'chrootstage'
+    arch-chroot /mnt /root/${SCRIPT_NAME} ${NODE_NUMBER} in-chroot 
+
+    rm /mnt/root/${SCRIPT_NAME}
+    rm /mnt/root/install.config
+
+    unmount_partitions
+}
+
+
+
+chroot_stage_main() {
+    NODE_IP=${BASE_IP}.${NODE_NUMBER}
+    HOSTNAME=${BASE_NAME}${NODE_NUMBER}
+
+    locale-gen
+    ln -s /usr/share/zoneinfo/${ZONE_INFO} /etc/localtime
+    hwclock --systohc --utc
+    echo ${HOSTNAME} > /etc/hostname
+
+    # rebuild initial ramdisk to include lvm
+    mkinitcpio -p linux
+
+    # initialize initial root password
+    echo "root:root" | chpasswd
+
+    # setup syslinux
+    pacman --noconfirm -S syslinux
+    mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
+    syslinux-install_update -iam
+
+    # setup networking
+    pacman --noconfirm -S iproute2 openssh
+    mkdir -p /etc/conf.d
+    cat > /etc/conf.d/network << EOF
+interface=eth0
+address=${NODE_IP}
+netmask=${NETMASK}
+broadcast=${BROADCAST}
+gateway=${MASTER_IP}
+EOF
+
+    cat > /etc/resolv.conf << EOF
+domain ${DOMAIN}
+nameserver ${MASTER_IP}
+EOF
+
+    # setup sudo
+    pacman --noconfirm -S sudo
+    chown root:root /etc/sudoers.REPLACE
+    mv /etc/sudoers.REPLACE /etc/sudoers
+
+    # install other basic _necessities_
+    # zsh -- Who uses bash still?
+    # rsync -- better copy
+    # salt -- saltstack will do the rest
+    #  Notice: Salt will (as of now) _have_ to be in your custom repo
+    pacman --noconfirm -S zsh rsync salt
+
+    # enable systemd services (has return code of 1 so disable errexit)
+    set +o errexit
+    systemctl enable network.service
+    systemctl enable sshd.service
+    set -o errexit
+}
+
+
+
+##################################################
+# main program entry logic
+##################################################
+
+ACTION=full_install
+
+# parse arguments
+declare -a args
+while (( $# )); do
+    case "$1" in
+        #-q|--quiet) QUIET=1;;
+        in-chroot)
+            ACTION=in-chroot;;
+        partition)
+            ACTION=partition;;
+        mount)
+            ACTION=mount;;
+        umount)
+            ACTION=umount;;
+        bootstrap)
+            ACTION=bootstrap;;
+        *)
+            args+=("$1")
+            ;;
+    esac
+    shift
+done
+
+# test for minimum number of arguments
+if [[ -z ${args[0]-} ]]; then
+    echo "TODO: make a better usage error message"
+    exit 1
+fi
+
+
+NODE_NUMBER=${args[0]}
+if [ $NODE_NUMBER -lt $MIN_NODE ] || [ $NODE_NUMBER -gt $MAX_NODE ]; then
+    echo "node# must be integer between ${MIN_NODE} and ${MAX_NODE}"
+    exit 1
+fi
+
+
+case "$ACTION" in
+    full_install)
+        live_install_main;;
+    in-chroot)
+        chroot_stage_main;;
+    mount)
+        mount_partitions;;
+    umount)
+        unmount_partitions;;
+    bootstrap)
+        bootstrap_system;;
+    *)
+        exit 1;;
+esac
+
