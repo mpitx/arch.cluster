@@ -7,13 +7,14 @@ SCRIPT_NAME=`basename $0`
 pushd `dirname $0` > /dev/null
 SCRIPT_PATH=`pwd`
 popd > /dev/null
-
+CONFIG_SCRIPT=config.sh
 
 NODE_NUMBER=0
 MIN_NODE=1
 MAX_NODE=199
 
-. ${SCRIPT_PATH}/install.config
+
+. ${SCRIPT_PATH}/${CONFIG_SCRIPT}
 
 prepare_hdd() {
     # check ${INSTALL_HDD} is not Live media (or already mounted)
@@ -75,13 +76,13 @@ live_install_main() {
     bootstrap_system
 
     cp ${SCRIPT_PATH}/${SCRIPT_NAME} /mnt/root/${SCRIPT_NAME}
-    cp ${SCRIPT_PATH}/install.config /mnt/root/install.config
+    cp ${SCRIPT_PATH}/${CONFIG_SCRIPT} /mnt/root/${CONFIG_SCRIPT}
 
     # call this same script except now use 'chrootstage'
     arch-chroot /mnt /root/${SCRIPT_NAME} ${NODE_NUMBER} in-chroot 
 
     rm /mnt/root/${SCRIPT_NAME}
-    rm /mnt/root/install.config
+    rm /mnt/root/${CONFIG_SCRIPT}
 
     unmount_partitions
 }
