@@ -2,8 +2,8 @@
 # This file is sourced part of install
 # HDD / Disk / Swap Config
 INSTALL_HDD=/dev/sda
-BOOT_PART=/dev/sda1
-ROOT_PART=/dev/sda2
+BOOT_PART=/dev/sda2
+ROOT_PART=/dev/sda3
 SWAP_FILE=/swapfile
 SWAP_SIZE=4096M
 # Network / Location Config
