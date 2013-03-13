@@ -60,7 +60,7 @@ unmount_partitions() {
 
 bootstrap_system() {
     # copy premade config files to /mnt
-    cp pacman.conf /etc/pacman.conf
+    cp mntfiles/etc/pacman.conf /etc/pacman.conf
     pacstrap /mnt base base-devel
     rsync -avz mntfiles/ /mnt/
 
