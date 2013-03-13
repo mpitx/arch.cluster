@@ -7,7 +7,7 @@ ROOT_PART=/dev/sda2
 SWAP_FILE=/swapfile
 SWAP_SIZE=4096M
 # Network / Location Config
-${ZONE_INFO}=America/Boise
+ZONE_INFO=America/Boise
 DOMAIN=viz
 BASE_IP=192.168.1
 MASTER_IP=${BASE_IP}.254
