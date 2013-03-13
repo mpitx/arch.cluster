@@ -25,18 +25,18 @@ prepare_hdd() {
 
     modprobe dm-mod     # probably already loaded, but doesn't hurt
 
-    # erase current partition table
-    dd if=/dev/zero of=${INSTALL_HDD} bs=512 count=1
-    # initialize new disk label
-    parted ${INSTALL_HDD} mklabel gpt
-
-    # create boot partition (512MB)
-    parted ${INSTALL_HDD} -- mkpart primary 'boot' 1 512
-    parted ${INSTALL_HDD} set 1 boot on
+    sgdisk --clear --mbrtogpt ${INSTALL_HDD}
+    sgdisk --new 1:2048:4095 ${INSTALL_HDD}
+    sgdisk --change-name 1:"BIOS-Boot Partition" ${INSTALL_HDD}
+    sgdisk --typecode 1:ef02 ${INSTALL_HDD}
+    sgdisk --new 2:0:+100M ${INSTALL_HDD}
+    sgdisk --typecode 2:8300 ${INSTALL_HDD}
+    sgdisk --change-name 2:"Boot Partition" ${INSTALL_HDD}
+    sgdisk --new 3:0:0 ${INSTALL_HDD}
+    sgdisk --typecode 3:8300 ${INSTALL_HDD}
+    sgdisk --change-name 3:"Root Partition"
+    # Format disk
     mkfs.ext4 -L boot ${BOOT_PART}
-
-    # create root partition (rest)
-    parted ${INSTALL_HDD} -- mkpart primary 'root' 512 -0
     mkfs.ext4 -L root ${ROOT_PART}
 }
 
