@@ -20,7 +20,8 @@ out.
 
 3.  Install Git:
 
-    `pacman -S git`
+        pacman -Sy
+        pacman -S git
 
 4.  Clone [this] repository
 
