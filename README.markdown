@@ -36,9 +36,12 @@ out.
 
     Add the new node's key on the master node
 
-    Allow salt to configure the box
+    Allow salt to configure the box (master node salt states are in progress)
 
     Reboot
 
+    (For more information about salt, visit [saltstack].)
+
 [archConfigNetwork]:[https://wiki.archlinux.org/index.php/Configuring_network]
 [this]:[https://github.com/mpitx/arch.cluster.git]
+[saltstack]:[http://docs.saltstack.org/]
