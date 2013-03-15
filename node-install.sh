@@ -141,6 +141,7 @@ EOF
     set +o errexit
     systemctl enable network.service
     systemctl enable sshd.service
+    systemctl enable salt-minion.service
     set -o errexit
 }
 
