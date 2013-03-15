@@ -1,0 +1,32 @@
+base_packages:
+    pkg.installed:
+        - pkgs:
+            - boost
+            - boost-libs
+            - clang
+            - cmake
+            - dnsutils
+            - erlang
+            - gdb
+            - git
+            - go
+            - ipython
+            - ipython2
+            - jdk7-openjdk
+            - llvm
+            - mercurial
+            - mlocate
+            - net-tools
+            - nmap
+            - python
+            - python2
+            - python2-imaging
+            - python2-numpy
+            - python2-scipy
+            - python-numpy
+            - python-scipy
+            - subversion
+            - tree
+            - valgrind
+            - zeromq
+            - zsh
