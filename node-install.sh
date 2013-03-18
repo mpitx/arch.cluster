@@ -31,6 +31,7 @@ prepare_hdd() {
     sgdisk --typecode 1:ef02 ${INSTALL_HDD}
     sgdisk --new 2:0:+100M ${INSTALL_HDD}
     sgdisk --typecode 2:8300 ${INSTALL_HDD}
+    sgdisk --attributes=2:set:2 ${INSTALL_HDD}
     sgdisk --change-name 2:"Boot Partition" ${INSTALL_HDD}
     sgdisk --new 3:0:0 ${INSTALL_HDD}
     sgdisk --typecode 3:8300 ${INSTALL_HDD}
@@ -107,7 +108,7 @@ chroot_stage_main() {
     # setup syslinux
     pacman --noconfirm -S syslinux
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
-    syslinux-install_update -iam
+    syslinux-install_update -i
 
     # setup networking
     pacman --noconfirm -S iproute2 openssh
