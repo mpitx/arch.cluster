@@ -1,0 +1,10 @@
+interface: 192.168.1.254
+file_roots:
+  base:
+    - /srv/salt
+pillar_roots:
+  base:
+    - /srv/pillar
+nodegroups:
+   cuda: 'E@node\d{2}'
+   desktop: 'L@node12,node16'
