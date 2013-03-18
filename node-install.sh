@@ -26,7 +26,7 @@ prepare_hdd() {
     modprobe dm-mod     # probably already loaded, but doesn't hurt
 
     sgdisk --clear --mbrtogpt ${INSTALL_HDD}
-    sgdisk --new 1:2048:4095 ${INSTALL_HDD}
+    sgdisk --new 1:2048:+2M ${INSTALL_HDD}
     sgdisk --change-name 1:"BIOS-Boot Partition" ${INSTALL_HDD}
     sgdisk --typecode 1:ef02 ${INSTALL_HDD}
     sgdisk --new 2:0:+100M ${INSTALL_HDD}
