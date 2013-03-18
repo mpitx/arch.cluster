@@ -8,6 +8,7 @@ base_packages:
             - dnsutils
             - erlang
             - gdb
+            - ghc
             - git
             - go
             - htop
