@@ -10,12 +10,15 @@ base_packages:
             - gdb
             - git
             - go
+            - htop
+            - iotop
             - ipython
             - ipython2
             - jdk7-openjdk
             - llvm
             - mercurial
             - mlocate
+            - mtr
             - net-tools
             - nmap
             - python
