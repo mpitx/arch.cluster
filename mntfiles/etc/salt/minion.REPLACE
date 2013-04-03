@@ -1,0 +1,3 @@
+# For initial salt configuration
+# Once salt is done, this should no longer be needed
+master: 192.168.1.254

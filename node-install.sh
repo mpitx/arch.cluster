@@ -160,6 +160,7 @@ function _install_salt() {
     cd salt
     makepkg -si
     cd ../
+    mv /etc/salt/minion.REPLACE /etc/salt/minion
     # Cleanup
     rm -r salt salt.tar.gz python2-msgpack python2-msgpack.tar.gz
 }
