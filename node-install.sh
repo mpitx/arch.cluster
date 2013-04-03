@@ -135,8 +135,10 @@ EOF
     # zsh -- Who uses bash still?
     # rsync -- better copy
     # salt -- saltstack will do the rest
-    #  Notice: Salt will (as of now) _have_ to be in your custom repo
-    pacman --noconfirm -S zsh rsync salt
+    pacman --noconfirm -S zsh rsync
+    # salt will have to be installed via AUR until it is moved to community
+    # We could also keep a local repository database...
+    _install_salt
 
     # enable systemd services (has return code of 1 so disable errexit)
     set +o errexit
@@ -146,7 +148,21 @@ EOF
     set -o errexit
 }
 
-
+function _install_salt() {
+    wget https://aur.archlinux.org/packages/sa/salt/salt.tar.gz
+    # Because it won't otherwise be downloaded and installed for us
+    wget https://aur.archlinux.org/packages/py/python2-msgpack/python2-msgpack.tar.gz
+    tar -zxf python2-msgpack.tar.gz
+    cd python2-msgpack
+    makepkg -si
+    cd ../
+    tar -zxf salt.tar.gz
+    cd salt
+    makepkg -si
+    cd ../
+    # Cleanup
+    rm -r salt salt.tar.gz python2-msgpack python2-msgpack.tar.gz
+}
 
 ##################################################
 # main program entry logic
