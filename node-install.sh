@@ -154,11 +154,11 @@ function _install_salt() {
     wget https://aur.archlinux.org/packages/py/python2-msgpack/python2-msgpack.tar.gz
     tar -zxf python2-msgpack.tar.gz
     cd python2-msgpack
-    makepkg --noconfirm --asroot -si
+    makepkg --noconfirm --asroot --syncdeps --install
     cd ../
     tar -zxf salt.tar.gz
     cd salt
-    makepkg --noconfirm --asroot -si
+    makepkg --noconfirm --asroot --syncdeps --install
     cd ../
     mv /etc/salt/minion.REPLACE /etc/salt/minion
     # Cleanup
