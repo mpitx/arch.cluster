@@ -1,0 +1,11 @@
+[Unit]
+Description=CUDA module / device setup
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/root/load_cuda.sh
+ExecStop=/root/unload_cuda.sh
+
+[Install]
+WantedBy=multi-user.target
