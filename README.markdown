@@ -20,8 +20,10 @@ out.
 
 3.  Install Git:
 
-        pacman -Sy
-        pacman -S git
+        pacman -Sy git
+
+    Something to note here, you may not want to upgrade pacman first. This
+    is just unnecessary here; this is a live cd.
 
 4.  Clone [this] repository
 

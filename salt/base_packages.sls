@@ -1,5 +1,5 @@
 base_packages:
-    pkg.installed:
+    pkg.latest:
         - pkgs:
             - boost
             - boost-libs

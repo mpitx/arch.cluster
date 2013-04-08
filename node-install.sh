@@ -106,9 +106,11 @@ chroot_stage_main() {
     echo "root:root" | chpasswd
 
     # setup syslinux
+    pacman -Syy
     pacman --noconfirm -S syslinux
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
-    syslinux-install_update -i
+    dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/gptmbr.bin \
+       of=/dev/sda
 
     # setup networking
     pacman --noconfirm -S iproute2 openssh
@@ -135,7 +137,7 @@ EOF
     # zsh -- Who uses bash still?
     # rsync -- better copy
     # salt -- saltstack will do the rest
-    pacman --noconfirm -S zsh rsync python python2 wget
+    pacman --noconfirm -S zsh rsync python python2 wget nfs-utils
     # salt will have to be installed via AUR until it is moved to community
     # We could also keep a local repository database...
     _install_salt
@@ -154,11 +156,11 @@ function _install_salt() {
     wget https://aur.archlinux.org/packages/py/python2-msgpack/python2-msgpack.tar.gz
     tar -zxf python2-msgpack.tar.gz
     cd python2-msgpack
-    makepkg -si
+    makepkg --noconfirm --asroot --syncdeps --install
     cd ../
     tar -zxf salt.tar.gz
     cd salt
-    makepkg -si
+    makepkg --noconfirm --asroot --syncdeps --install
     cd ../
     mv /etc/salt/minion.REPLACE /etc/salt/minion
     # Cleanup
