@@ -106,6 +106,7 @@ chroot_stage_main() {
     echo "root:root" | chpasswd
 
     # setup syslinux
+    pacman -Syy
     pacman --noconfirm -S syslinux
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
     syslinux-install_update -i
