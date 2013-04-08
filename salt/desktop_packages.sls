@@ -1,5 +1,5 @@
 desktop_packages:
-    pkg.installed:
+    pkg.latest:
         - pkgs:
             - alsa-lib
             - alsa-utils

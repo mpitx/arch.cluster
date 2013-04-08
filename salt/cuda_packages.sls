@@ -1,5 +1,5 @@
 cuda_packages:
-    pkg.installed:
+    pkg.latest:
         - pkgs:
             - cuda
             - pycuda-headers
