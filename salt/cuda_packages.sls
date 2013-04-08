@@ -15,14 +15,14 @@ cuda_packages:
 
 /root/unload_cuda.sh:
     file.managed:
-        - source: salt//root/unload_cuda.sh
+        - source: salt://root/unload_cuda.sh
         - user: root
         - group: root
         - mode: 744
 
 /etc/systemd/system/multi-user.target.wants/cuda.service:
     file.managed:
-        - source: salt//etc/systemd/system/multi-user.target.wants/cuda.service
+        - source: salt://etc/systemd/system/multi-user.target.wants/cuda.service
         - user: root
         - group: root
         - mode: 777
