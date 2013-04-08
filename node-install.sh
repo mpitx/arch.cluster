@@ -137,7 +137,7 @@ EOF
     # zsh -- Who uses bash still?
     # rsync -- better copy
     # salt -- saltstack will do the rest
-    pacman --noconfirm -S zsh rsync python python2 wget
+    pacman --noconfirm -S zsh rsync python python2 wget nfs-utils
     # salt will have to be installed via AUR until it is moved to community
     # We could also keep a local repository database...
     _install_salt
