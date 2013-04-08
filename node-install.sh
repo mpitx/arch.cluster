@@ -109,7 +109,8 @@ chroot_stage_main() {
     pacman -Syy
     pacman --noconfirm -S syslinux
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
-    syslinux-install_update -i
+    dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/gptmbr.bin \
+       of=/dev/sda
 
     # setup networking
     pacman --noconfirm -S iproute2 openssh
