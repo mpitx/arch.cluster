@@ -129,7 +129,6 @@ nameserver ${MASTER_IP}
 EOF
 
     # setup sudo
-    pacman --noconfirm -S sudo
     chown root:root /etc/sudoers.REPLACE
     mv /etc/sudoers.REPLACE /etc/sudoers
 
