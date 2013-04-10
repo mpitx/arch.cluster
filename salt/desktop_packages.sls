@@ -38,7 +38,7 @@ desktop_packages:
             - kdebase-katepart
             - kdebase-kdepasswd
             - kdebase-kdialog
-            - kdebase-keitbookmarks
+            - kdebase-keditbookmarks
             - kdebase-kfind
             - kdebase-konq-plugins
             - kdebase-konqueror
@@ -48,7 +48,14 @@ desktop_packages:
             - kdebase-plasma
             - kdebase-runtime
             - kdebase-workspace
-            - libreoffice
+            - libreoffice-base
+            - libreoffice-calc
+            - libreoffice-common
+            - libreoffice-draw
+            - libreoffice-impress
+            - libreoffice-kde4
+            - libreoffice-math
+            - libreoffice-writer
             - libreoffice-en-US
             - menumaker
             - nitrogen
