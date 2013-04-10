@@ -16,8 +16,8 @@ desktop_packages:
             - gnome-themes-extras
             - gnome-themes-standard
             - gstreamer0.10
-            - gstreamer0.10-base-plugins
             - gstreamer0.10-bad-plugins
+            - gstreamer0.10-base-plugins
             - gstreamer0.10-ffmpeg
             - gstreamer0.10-good-plugins
             - gstreamer0.10-ugly-plugins
@@ -52,11 +52,11 @@ desktop_packages:
             - libreoffice-calc
             - libreoffice-common
             - libreoffice-draw
+            - libreoffice-en-US
             - libreoffice-impress
             - libreoffice-kde4
             - libreoffice-math
             - libreoffice-writer
-            - libreoffice-en-US
             - menumaker
             - nitrogen
             - obconf
