@@ -16,14 +16,39 @@ desktop_packages:
             - gnome-themes-extras
             - gnome-themes-standard
             - gstreamer0.10
-            - gstreamer0.10-plugins
+            - gstreamer0.10-base-plugins
+            - gstreamer0.10-bad-plugins
+            - gstreamer0.10-ffmpeg-plugins
+            - gstreamer0.10-good-plugins
+            - gstreamer0.10-ugly-plugins
             - gvfs
             - gvim
             - inkscape
             - jre7-openjdk
             - jre7-openjdk-headless
-            - kdeartwork
-            - kdebase
+            - kdeartwork-colorschemes
+            - kdeartwork-emoticons
+            - kdeartwork-iconsthemes
+            - kdeartwork-kscreensaver
+            - kdeartwork-sounds
+            - kdeartwork-styles
+            - kdeartwork-wallpapers
+            - kdeartwork-weatherwallpapers
+            - kdebase-wallpapers
+            - kdebase-dolphin
+            - kdebase-katepart
+            - kdebase-kdepasswd
+            - kdebase-kdialog
+            - kdebase-keitbookmarks
+            - kdebase-kfind
+            - kdebase-konq-plugins
+            - kdebase-konqueror
+            - kdebase-konsole
+            - kdebase-kwrite
+            - kdebase-lib
+            - kdebase-plasma
+            - kdebase-runtime
+            - kdebase-workspace
             - libreoffice
             - libreoffice-en-US
             - menumaker
