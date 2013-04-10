@@ -18,7 +18,7 @@ desktop_packages:
             - gstreamer0.10
             - gstreamer0.10-base-plugins
             - gstreamer0.10-bad-plugins
-            - gstreamer0.10-ffmpeg-plugins
+            - gstreamer0.10-ffmpeg
             - gstreamer0.10-good-plugins
             - gstreamer0.10-ugly-plugins
             - gvfs
@@ -28,13 +28,12 @@ desktop_packages:
             - jre7-openjdk-headless
             - kdeartwork-colorschemes
             - kdeartwork-emoticons
-            - kdeartwork-iconsthemes
+            - kdeartwork-iconthemes
             - kdeartwork-kscreensaver
             - kdeartwork-sounds
             - kdeartwork-styles
             - kdeartwork-wallpapers
             - kdeartwork-weatherwallpapers
-            - kdebase-wallpapers
             - kdebase-dolphin
             - kdebase-katepart
             - kdebase-kdepasswd
