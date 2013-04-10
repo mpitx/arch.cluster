@@ -9,6 +9,7 @@ base:
     'cuda':
         - match: nodegroup
         - cuda_packages
+        - mpi_packages
     'desktop':
         - match: nodegroup
         - desktop_packages
