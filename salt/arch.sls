@@ -25,3 +25,10 @@
         - user: root
         - group: root
         - mode: 644
+
+/etc/locale.gen:
+    file.manages:
+        - source: salt://etc/locale.gen
+        - user: root
+        - group: root
+        - mode: 644
