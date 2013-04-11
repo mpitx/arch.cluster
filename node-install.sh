@@ -113,7 +113,7 @@ chroot_stage_main() {
        of=/dev/sda
 
     # setup networking
-    pacman --noconfirm -S iproute2 openssh
+    pacman --noconfirm -S openssh
     mkdir -p /etc/conf.d
     cat > /etc/conf.d/network << EOF
 interface=eth0
@@ -129,7 +129,6 @@ nameserver ${MASTER_IP}
 EOF
 
     # setup sudo
-    pacman --noconfirm -S sudo
     chown root:root /etc/sudoers.REPLACE
     mv /etc/sudoers.REPLACE /etc/sudoers
 
