@@ -34,7 +34,7 @@
         - mode: 644
 
 /etc/profile:
-    file.manages:
+    file.managed:
         - source: salt://etc/profile
         - user: root
         - group: root
