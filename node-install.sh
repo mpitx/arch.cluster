@@ -26,16 +26,16 @@ prepare_hdd() {
     modprobe dm-mod     # probably already loaded, but doesn't hurt
 
     sgdisk --clear --mbrtogpt ${INSTALL_HDD}
-    sgdisk --new 1:2048:+2M ${INSTALL_HDD}
-    sgdisk --change-name 1:"BIOS-Boot Partition" ${INSTALL_HDD}
-    sgdisk --typecode 1:ef02 ${INSTALL_HDD}
-    sgdisk --new 2:0:+100M ${INSTALL_HDD}
-    sgdisk --typecode 2:8300 ${INSTALL_HDD}
+    sgdisk --new 1:2048:+2M ${INSTALL_HDD} \
+           --change-name 1:"BIOS-Boot Partition" ${INSTALL_HDD} \
+           --typecode 1:ef02 ${INSTALL_HDD}
+    sgdisk --new 2:0:+100M ${INSTALL_HDD} \
+           --typecode 2:8300 ${INSTALL_HDD} \
+           --change-name 2:"Boot Partition" ${INSTALL_HDD}
+    sgdisk --new 3:0:0 ${INSTALL_HDD} \
+           --typecode 3:8300 ${INSTALL_HDD} \
+           --change-name 3:"Root Partition"
     sgdisk --attributes=2:set:2 ${INSTALL_HDD}
-    sgdisk --change-name 2:"Boot Partition" ${INSTALL_HDD}
-    sgdisk --new 3:0:0 ${INSTALL_HDD}
-    sgdisk --typecode 3:8300 ${INSTALL_HDD}
-    sgdisk --change-name 3:"Root Partition"
     # Format disk
     mkfs.ext4 -L boot ${BOOT_PART}
     mkfs.ext4 -L root ${ROOT_PART}
