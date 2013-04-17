@@ -26,16 +26,13 @@ prepare_hdd() {
     modprobe dm-mod     # probably already loaded, but doesn't hurt
 
     sgdisk --clear --mbrtogpt ${INSTALL_HDD}
-    sgdisk --new 1:2048:+2M \
-           --change-name 1:"BIOS-Boot Partition" \
-           --typecode 1:ef02 ${INSTALL_HDD}
-    sgdisk --new 2:0:+100M \
+    sgdisk --new 1:0:+100M \
+           --typecode 1:8300 \
+           --change-name 1:"Boot Partition" ${INSTALL_HDD}
+    sgdisk --new 2:0:0 \
            --typecode 2:8300 \
-           --change-name 2:"Boot Partition" ${INSTALL_HDD}
-    sgdisk --new 3:0:0 \
-           --typecode 3:8300 \
-           --change-name 3:"Root Partition" ${INSTALL_HDD}
-    sgdisk --attributes=2:set:2 ${INSTALL_HDD}
+           --change-name 2:"Root Partition" ${INSTALL_HDD}
+    sgdisk --attributes=1:set:2 ${INSTALL_HDD}
     # Format disk
     mkfs.ext4 -L boot ${BOOT_PART}
     mkfs.ext4 -L root ${ROOT_PART}
@@ -111,6 +108,7 @@ chroot_stage_main() {
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
     dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/gptmbr.bin \
        of=/dev/sda
+    syslinux-install_update -i
 
     # setup networking
     pacman --noconfirm -S openssh
