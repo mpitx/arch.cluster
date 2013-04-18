@@ -61,7 +61,7 @@ bootstrap_system() {
     rsync -avz mntfiles/ /mnt/
 
     # Add swapfile to fstab
-    echo "/swapfile none swap defauts 0 0" >> /mnt/etc/fstab
+    echo "${SWAP_FILE} none swap defauts 0 0" >> /mnt/etc/fstab
     # generate fstab
     genfstab -U -p /mnt >> /mnt/etc/fstab
 }
