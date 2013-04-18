@@ -46,12 +46,10 @@ mount_partitions() {
     fallocate -l ${SWAP_SIZE} /mnt${SWAP_FILE}
     chmod 600 /mnt${SWAP_FILE}
     mkswap /mnt${SWAP_FILE}
-    swapon /mnt${SWAP_FILE}
 }
 
 unmount_partitions() {
     umount /mnt/boot
-    swapoff /mnt${SWAP_FILE}
     umount /mnt
 }
 
@@ -62,6 +60,8 @@ bootstrap_system() {
     pacstrap /mnt base base-devel
     rsync -avz mntfiles/ /mnt/
 
+    # Add swapfile to fstab
+    echo "/swapfile none swap defauts 0 0" >> /mnt/etc/fstab
     # generate fstab
     genfstab -U -p /mnt >> /mnt/etc/fstab
 }
