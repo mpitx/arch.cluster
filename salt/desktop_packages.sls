@@ -11,6 +11,8 @@ desktop_packages:
             - eclipse
             - ffmpeg
             - flashplugin
+            - gedit
+            - gedit-plugins
             - gimp
             - gnome-icon-theme
             - gnome-themes-extras
