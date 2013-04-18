@@ -26,16 +26,13 @@ prepare_hdd() {
     modprobe dm-mod     # probably already loaded, but doesn't hurt
 
     sgdisk --clear --mbrtogpt ${INSTALL_HDD}
-    sgdisk --new 1:2048:+2M ${INSTALL_HDD} \
-           --change-name 1:"BIOS-Boot Partition" ${INSTALL_HDD} \
-           --typecode 1:ef02 ${INSTALL_HDD}
-    sgdisk --new 2:0:+100M ${INSTALL_HDD} \
-           --typecode 2:8300 ${INSTALL_HDD} \
-           --change-name 2:"Boot Partition" ${INSTALL_HDD}
-    sgdisk --new 3:0:0 ${INSTALL_HDD} \
-           --typecode 3:8300 ${INSTALL_HDD} \
-           --change-name 3:"Root Partition"
-    sgdisk --attributes=2:set:2 ${INSTALL_HDD}
+    sgdisk --new 1:0:+100M \
+           --typecode 1:8300 \
+           --change-name 1:"Boot Partition" ${INSTALL_HDD}
+    sgdisk --new 2:0:0 \
+           --typecode 2:8300 \
+           --change-name 2:"Root Partition" ${INSTALL_HDD}
+    sgdisk --attributes=1:set:2 ${INSTALL_HDD}
     # Format disk
     mkfs.ext4 -L boot ${BOOT_PART}
     mkfs.ext4 -L root ${ROOT_PART}
@@ -49,12 +46,10 @@ mount_partitions() {
     fallocate -l ${SWAP_SIZE} /mnt${SWAP_FILE}
     chmod 600 /mnt${SWAP_FILE}
     mkswap /mnt${SWAP_FILE}
-    swapon /mnt${SWAP_FILE}
 }
 
 unmount_partitions() {
     umount /mnt/boot
-    swapoff /mnt${SWAP_FILE}
     umount /mnt
 }
 
@@ -65,6 +60,8 @@ bootstrap_system() {
     pacstrap /mnt base base-devel
     rsync -avz mntfiles/ /mnt/
 
+    # Add swapfile to fstab
+    echo "${SWAP_FILE} none swap defauts 0 0" >> /mnt/etc/fstab
     # generate fstab
     genfstab -U -p /mnt >> /mnt/etc/fstab
 }
@@ -111,6 +108,7 @@ chroot_stage_main() {
     mv /boot/syslinux/syslinux.cfg.REPLACE /boot/syslinux/syslinux.cfg
     dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/gptmbr.bin \
        of=/dev/sda
+    syslinux-install_update -i
 
     # setup networking
     pacman --noconfirm -S openssh
@@ -147,6 +145,9 @@ EOF
     systemctl enable sshd.service
     systemctl enable salt-minion.service
     set -o errexit
+
+    # Disable new systemd network device naming conventions
+    ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules
 }
 
 function _install_salt() {
