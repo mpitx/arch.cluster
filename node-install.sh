@@ -145,6 +145,9 @@ EOF
     systemctl enable sshd.service
     systemctl enable salt-minion.service
     set -o errexit
+
+    # Disable new systemd network device naming conventions
+    ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules
 }
 
 function _install_salt() {
