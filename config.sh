@@ -15,4 +15,4 @@ BASE_NAME=node
 NETMASK=24
 BROADCAST=${BASE_IP}.255
 # Extra Packages to be installed (space seperated)
-EXTRA_PKGS='zsh rsync python python2 wget nfs-utils'
+EXTRA_PKGS='zsh rsync python python2 wget nfs-utils nvidia'
