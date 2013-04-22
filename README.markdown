@@ -7,7 +7,7 @@ Arch Cluster Build/Configuration Information
 There are some hard coded assumptions that are in the process of being massaged
 out.
 
-## Install Steps (Node) Draft ##
+## Install Steps (Node) ##
 
 1.  Boot Latest Arch Media
 
