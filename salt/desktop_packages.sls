@@ -10,6 +10,7 @@ desktop_packages:
             - dmenu
             - eclipse
             - ffmpeg
+            - firefox
             - flashplugin
             - gedit
             - gedit-plugins
