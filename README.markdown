@@ -45,6 +45,11 @@ out.
 
     (For more information about salt, visit [saltstack].)
 
+## License ##
+
+*arch.cluster* is available under the GNU General Public License (version 3).
+For more information see the LICENSE text file.
+
 [archConfigNetwork]:https://wiki.archlinux.org/index.php/Configuring_network
 [this]:https://github.com/mpitx/arch.cluster.git
 [saltstack]:http://docs.saltstack.org/
