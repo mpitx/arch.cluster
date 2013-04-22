@@ -9,7 +9,7 @@ out.
 
 ## Install Steps (Node) ##
 
-1.  Boot Latest Arch Media
+1.  Boot Latest Arch Media [Arch Linux Downloads][archDownload]
 
 2.  Setup Network Connections:
 
@@ -45,6 +45,7 @@ out.
 
     (For more information about salt, visit [saltstack].)
 
-[archConfigNetwork]:[https://wiki.archlinux.org/index.php/Configuring_network]
-[this]:[https://github.com/mpitx/arch.cluster.git]
-[saltstack]:[http://docs.saltstack.org/]
+[archConfigNetwork]:https://wiki.archlinux.org/index.php/Configuring_network
+[this]:https://github.com/mpitx/arch.cluster.git
+[saltstack]:http://docs.saltstack.org/
+[archDownload]:https://www.archlinux.org/download/
