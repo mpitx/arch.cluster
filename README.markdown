@@ -7,9 +7,9 @@ Arch Cluster Build/Configuration Information
 There are some hard coded assumptions that are in the process of being massaged
 out.
 
-## Install Steps (Node) Draft ##
+## Install Steps (Node) ##
 
-1.  Boot Latest Arch Media
+1.  Boot Latest Arch Media [Arch Linux Downloads][archDownload]
 
 2.  Setup Network Connections:
 
@@ -45,6 +45,12 @@ out.
 
     (For more information about salt, visit [saltstack].)
 
-[archConfigNetwork]:[https://wiki.archlinux.org/index.php/Configuring_network]
-[this]:[https://github.com/mpitx/arch.cluster.git]
-[saltstack]:[http://docs.saltstack.org/]
+## License ##
+
+*arch.cluster* is available under the GNU General Public License (version 3).
+For more information see the LICENSE text file.
+
+[archConfigNetwork]:https://wiki.archlinux.org/index.php/Configuring_network
+[this]:https://github.com/mpitx/arch.cluster.git
+[saltstack]:http://docs.saltstack.org/
+[archDownload]:https://www.archlinux.org/download/
