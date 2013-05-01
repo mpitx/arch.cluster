@@ -30,6 +30,7 @@ base_packages:
             - python-numpy
             - python-scipy
             - subversion
+            - tmux
             - tree
             - valgrind
             - zeromq

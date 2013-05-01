@@ -3,6 +3,8 @@ desktop_packages:
         - pkgs:
             - alsa-lib
             - alsa-utils
+            - aspell
+            - aspell-en
             - chromium
             - conky
             - cups
@@ -12,6 +14,7 @@ desktop_packages:
             - ffmpeg
             - firefox
             - flashplugin
+            - gajim
             - gedit
             - gedit-plugins
             - gimp
