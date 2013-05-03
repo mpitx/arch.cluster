@@ -75,6 +75,14 @@ desktop_packages:
             - pidgin
             - tangerine-icon-theme
             - terminator
+            - texlive-bibtexextra
+            - texlive-core
+            - texlive-fontsextra
+            - texlive-htmlxml
+            - texlive-latexextra
+            - texlive-pictures
+            - texlive-plainextra
+            - texlive-science
             - tint2
             - ttf-bitstream-vera
             - ttf-dejavu
