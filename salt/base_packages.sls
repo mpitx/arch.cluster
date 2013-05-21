@@ -28,9 +28,11 @@ base_packages:
             - python2-numpy
             - python2-pylint
             - python2-scipy
+            - python2-sphinx
             - python-numpy
             - python-pylint
             - python-scipy
+            - python-sphinx
             - subversion
             - time
             - tmux
