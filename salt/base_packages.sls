@@ -26,8 +26,10 @@ base_packages:
             - python2
             - python2-imaging
             - python2-numpy
+            - python2-pylint
             - python2-scipy
             - python-numpy
+            - python-pylint
             - python-scipy
             - subversion
             - time
