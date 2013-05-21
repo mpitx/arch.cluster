@@ -93,3 +93,8 @@ desktop_packages:
             - ttf-ubuntu-font-family
             - volumeicon
             - xchat
+
+kdm:
+    service:
+        - running
+        - enable: True
