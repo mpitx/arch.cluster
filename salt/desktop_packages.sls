@@ -54,6 +54,7 @@ desktop_packages:
             - kdebase-plasma
             - kdebase-runtime
             - kdebase-workspace
+            - krusader
             - libreoffice-base
             - libreoffice-calc
             - libreoffice-common
