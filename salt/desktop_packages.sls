@@ -75,6 +75,7 @@ desktop_packages:
             - phonon-gstreamer
             - pidgin
             - tangerine-icon-theme
+            - tcl
             - terminator
             - texlive-bibtexextra
             - texlive-core
@@ -85,6 +86,7 @@ desktop_packages:
             - texlive-plainextra
             - texlive-science
             - tint2
+            - tk
             - ttf-bitstream-vera
             - ttf-dejavu
             - ttf-droid
