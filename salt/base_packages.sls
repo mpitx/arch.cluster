@@ -40,3 +40,10 @@ base_packages:
             - valgrind
             - zeromq
             - zsh
+
+/etc/mercurial/hgrc:
+    file.managed:
+        - source: salt://etc/mercurial/hgrc
+        - user: root
+        - group: root
+        - mode: 744

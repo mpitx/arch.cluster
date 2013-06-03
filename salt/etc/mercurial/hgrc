@@ -1,0 +1,9 @@
+[ui]
+[extensions]
+[hgk]
+[hooks]
+[email]
+[smtp]
+[notify]
+[web]
+cacerts = /etc/ssl/certs/ca-certificates.crt
