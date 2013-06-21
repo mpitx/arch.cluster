@@ -7,6 +7,7 @@ base_packages:
             - cmake
             - dnsutils
             - erlang
+            - ethtool
             - gdb
             - ghc
             - git
