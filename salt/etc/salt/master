@@ -7,4 +7,3 @@ pillar_roots:
     - /srv/pillar
 nodegroups:
    cuda: 'E@node\d{2}'
-   desktop: 'L@node12,node16'
