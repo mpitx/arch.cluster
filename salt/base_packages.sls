@@ -39,6 +39,7 @@ base_packages:
             - tmux
             - tree
             - valgrind
+            - vim
             - zeromq
             - zsh
 
