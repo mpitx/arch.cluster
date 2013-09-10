@@ -23,6 +23,7 @@ base_packages:
             - mtr
             - net-tools
             - nmap
+            - pkgtools
             - python
             - python2
             - python2-imaging
